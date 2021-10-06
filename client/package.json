@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^9.8.7",
-    "postcss": "^7.0.38",
+    "postcss": "^7.0.38"
   },
   "proxy": "http://localhost:5000"
 }
