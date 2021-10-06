@@ -1,15 +1,20 @@
-require('dotenv').config();
-
 const cors = require('cors');
 const express = require('express');
+const path = require('path');
 
 const db = require('./db');
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-const api = process.env.API;
+if (process.env.NODE_ENV === 'production') {
+  // Serve static content
+  app.use(express.static(path.join(__dirname, 'client/build')));
+}
+
+const api = '/api/v1/todos/';
 
 // Get all todos
 app.get(api, async (req, res) => {
@@ -89,6 +94,10 @@ app.delete(api, async (req, res) => {
   }
 });
 
-const port = process.env.PORT;
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build/index.html'));
+});
 
-app.listen(port, () => console.log(`Server is up and running on port ${port}`));
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => console.log(`Server is up and running on port ${PORT}`));
